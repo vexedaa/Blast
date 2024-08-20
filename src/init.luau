@@ -118,7 +118,7 @@ end
 function Blast:GetResource(resource_name: string)
     local find_resource = self.Resources[resource_name]
     assert(not not find_resource, `Resource {resource_name} does not exist.`)
-    return require(find_resource)
+    return find_resource
 end
 
 local function _toggleButtonActive(button_data: any, callback: ((isButtonActive: boolean) -> any)?)
