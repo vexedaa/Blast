@@ -1,0 +1,11 @@
+{
+  "name": "Blast",
+  "tree": {
+    "$className": "DataModel",
+    "ServerScriptService": {
+      "Blast": {
+        "$path": "src"
+      }
+    }
+  }
+}
