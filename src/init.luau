@@ -20,7 +20,7 @@ local Blast = {
     Buttons = {};
     Widgets = {};
     
-    Resources = script.Resources;
+    Resources = {};
     Types = require(script.BlastTypes);
 
     _toolbarsCreated = false;
@@ -29,6 +29,9 @@ local Blast = {
     _isButtonActive = {};
 
     _plugin = nil;
+
+    ChangeHistoryService = game:GetService("ChangeHistoryService");
+    Selection = game:GetService("Selection")
 }
 
 local BlastTypes = Blast.Types
@@ -41,6 +44,10 @@ end
 
 function Blast.SetPlugin(_plugin: Plugin)
     Blast._setPlugin(_plugin)
+end
+
+function Blast.SetResources(resources: Folder)
+    Blast._setResources(resources)
 end
 
 function Blast._createToolbars()
@@ -64,6 +71,18 @@ end
 function Blast._setPlugin(_plugin: Plugin)
     if _plugin == nil then return end
     Blast._plugin = _plugin
+end
+
+function Blast._setResources(resources: Folder, replaces: boolean?): {}
+    assert(resources and resources:IsA("Folder"), `Resources {resources} is not a folder, or does not exist.`)
+    if replaces or replaces == nil then
+        Blast.Resources = {}
+    end
+    for _, resource in resources:GetChildren() do
+        Blast.Resources[resource.Name] = require(resource)
+    end
+
+    return Blast.Resources
 end
 
 function Blast:awaitToolbars()
@@ -97,7 +116,7 @@ function Blast:GetWidget(widget_name: string)
 end
 
 function Blast:GetResource(resource_name: string)
-    local find_resource = script.Resources:FindFirstChild(resource_name)
+    local find_resource = self.Resources[resource_name]
     assert(not not find_resource, `Resource {resource_name} does not exist.`)
     return require(find_resource)
 end
