@@ -161,8 +161,6 @@ function Blast:CreateToolbar(toolbar_data: {name: string, buttons: { [string]: B
         local created_button = created_toolbar:CreateButton(button.name, button.tooltip or "", button.icon or "", button.text)
         local button_data = {button = created_button; data = button; toolbar_name = name}
         created_buttons[button.name] = button_data
-
-        -- Blast:SetButtonActive(button_data, false)
         
         task.spawn(function()
             if button_data.data.togglesWidget then
