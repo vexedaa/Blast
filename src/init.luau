@@ -212,7 +212,7 @@ end
 
 function Blast:ReviveButton(toolbar_name: string, button_name: string)
     self:SetButtonEnabled(toolbar_name, button_name, true)
-    self:SetButtonActive(toolbar_name, button_name, true)
+    self:SetButtonActive(toolbar_name, button_name, false)
 end
 
 function Blast:IsButtonActive(toolbar_name: string, button_name: string): boolean
