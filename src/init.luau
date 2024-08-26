@@ -205,6 +205,16 @@ function Blast:SetButtonActive(toolbar_name: string, button_name: string, active
     return true
 end
 
+function Blast:SuspendButton(toolbar_name: string, button_name: string)
+    self:SetButtonEnabled(toolbar_name, button_name, false)
+    self:SetButtonActive(toolbar_name, button_name, false)
+end
+
+function Blast:ReviveButton(toolbar_name: string, button_name: string)
+    self:SetButtonEnabled(toolbar_name, button_name, true)
+    self:SetButtonActive(toolbar_name, button_name, true)
+end
+
 function Blast:IsButtonActive(toolbar_name: string, button_name: string): boolean
     task.wait()
     self:AssertForButton(toolbar_name, button_name)
