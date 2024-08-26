@@ -138,29 +138,43 @@ local function _toggleButtonActive(button_data: any, callback: ((isButtonActive:
     end)
 end
 
-function Blast:SetButtonActive(toolbar_name: string, button_name: string, active: boolean?): boolean?
+function Blast:AssertForButton(toolbar_name: string, button_name: string)
     assert(typeof(toolbar_name) == "string", "Must specify a toolbar")
     assert(typeof(button_name) == "string", "Must specify a button name")
+    return true
+end
+
+function Blast:SetButtonActive(toolbar_name: string, button_name: string, active: boolean?): boolean?
+    self:AssertForButton(toolbar_name, button_name)
+
     assert(active == nil or typeof(active) == "boolean", "Invalid toggle value")
     local button = self:GetButton(toolbar_name, button_name)
     assert(button and button.ClassName == "PluginToolbarButton", "Button not found")
+    local button_lookup = Blast._buttonLookup(toolbar_name, button_name)
+    
     if active == nil then
-        active = not Blast._isButtonActive[toolbar_name][button_name]
+        active = not Blast._isButtonActive[button_lookup]
     end
 
     button:SetActive(active)
-    Blast._isButtonActive[toolbar_name][button_name] = active
+    Blast._isButtonActive[button_lookup] = active
 
     return true
 end
 
-function Blast:IsButtonActive(button_data: {}): boolean
-    local isButtonActive = Blast._isButtonActive[button_data.toolbar_name .. button_data.data.name]
+function Blast:IsButtonActive(toolbar_name: string, button_name: string): boolean
+    self:AssertForButton(toolbar_name, button_name)
+
+    local isButtonActive = Blast._isButtonActive[Blast._buttonLookup(toolbar_name, button_name)]
     if isButtonActive == nil then
         isButtonActive = false
     end
 
     return isButtonActive
+end
+
+function Blast._buttonLookup(toolbar_name: string, button_name: string): string
+    return `{toolbar_name}-{button_name}`
 end
 
 function Blast:CreateToolbar(toolbar_data: {name: string, buttons: { [string]: BlastTypes.Toolbar_Button }})
@@ -170,11 +184,13 @@ function Blast:CreateToolbar(toolbar_data: {name: string, buttons: { [string]: B
     local created_toolbar = self:GetPlugin():CreateToolbar(name)
 
     local created_buttons = {}
-
+    
     for _, button in buttons do
         local created_button = created_toolbar:CreateButton(button.name, button.tooltip or "", button.icon or "", button.text)
         local button_data = {button = created_button; data = button; toolbar_name = name}
         created_buttons[button.name] = button_data
+
+        self._isButtonActive[Blast._buttonLookup(name, button.name)] = {}
         
         task.spawn(function()
             if button_data.data.togglesWidget then
@@ -202,6 +218,7 @@ function Blast:CreateToolbar(toolbar_data: {name: string, buttons: { [string]: B
     local toolbar_packet = {toolbar = created_toolbar; data = toolbar_data}
     self.Toolbars[name] = toolbar_packet
     self.Buttons[name] = created_buttons
+
 
     return toolbar_packet, created_buttons
 end
