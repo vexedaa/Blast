@@ -199,7 +199,6 @@ function Blast:SetButtonActive(toolbar_name: string, button_name: string, active
     local enabled = button.Enabled
     button.Enabled = not enabled
     button.Enabled = enabled
-
     button:SetActive(active)
     Blast._isButtonActive[button_lookup] = active
 
@@ -254,10 +253,9 @@ function Blast:CreateToolbar(toolbar_data: {name: string, buttons: { [string]: B
                 local initial_enabled = widget_data.widget.Enabled
                 if initial_enabled then
                     Blast:SetButtonActive(name, button.name, initial_enabled)
-                else
-                    Blast:SetButtonActive(name, button.name, false)
                 end
-
+            else
+                Blast:SetButtonActive(name, button.name, false)
             end
         end)
     end
