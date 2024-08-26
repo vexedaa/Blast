@@ -221,8 +221,8 @@ function Blast:CreateToolbar(toolbar_data: {name: string, buttons: { [string]: B
         local button_data = {button = created_button; data = button; toolbar_name = name}
         created_buttons[button.name] = button_data
 
-        self._isButtonActive[Blast._buttonLookup(name, button.name)] = false
-        self._isButtonEnabled[Blast._buttonLookup(name, button.name)] = false
+        self._isButtonActive[Blast._buttonLookup(name, button.name)] = false -- Inactive by default
+        self._isButtonEnabled[Blast._buttonLookup(name, button.name)] = true -- Enabled by default
         
         task.spawn(function()
             if button_data.data.togglesWidget then
