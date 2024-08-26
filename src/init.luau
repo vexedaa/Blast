@@ -29,6 +29,7 @@ local Blast = {
     _widgetsCreated = false;
 
     _isButtonActive = {};
+    _isButtonEnabled = {};
 
     _plugin = nil;
 
@@ -107,7 +108,16 @@ function Blast:GetPlugin()
 end
 
 function Blast:GetButton(toolbar_name: string, button_name: string): PluginToolbarButton
-    return self.Buttons[toolbar_name][button_name].button
+    self:AssertForButton(toolbar_name, button_name)
+    
+    local s, r = pcall(function()
+        return self.Buttons[toolbar_name][button_name].button
+    end)
+    if s == false then
+        error(`Button {button_name} does not exist in toolbar {toolbar_name}.`)
+    end
+
+    return r
 end
 
 function Blast:GetToolbar(toolbar_name: string)
@@ -138,9 +148,27 @@ local function _toggleButtonActive(button_data: any, callback: ((isButtonActive:
     end)
 end
 
+
+
 function Blast:AssertForButton(toolbar_name: string, button_name: string)
     assert(typeof(toolbar_name) == "string", "Must specify a toolbar")
     assert(typeof(button_name) == "string", "Must specify a button name")
+    return true
+end
+
+function Blast:ToggleButtonEnabled(toolbar_name: string, button_name: string, enabled: boolean?): boolean?
+    self:AssertForButton(toolbar_name, button_name)
+    local button = self:GetButton(toolbar_name, button_name)
+
+    local button_lookup = Blast._buttonLookup(toolbar_name, button_name)
+
+    if enabled == nil then
+        enabled = not Blast._isButtonEnabled[button_lookup]
+    end
+
+    button.Enabled = not enabled
+    button.Enabled = enabled
+
     return true
 end
 
@@ -156,8 +184,9 @@ function Blast:SetButtonActive(toolbar_name: string, button_name: string, active
         active = not Blast._isButtonActive[button_lookup]
     end
 
-    button.Enabled = not active
-    button.Enabled = active
+    button.Enabled = not Blast._isButtonEnabled[button_lookup]
+    button.Enabled = Blast._isButtonEnabled[button_lookup]
+
     button:SetActive(active)
     Blast._isButtonActive[button_lookup] = active
 
@@ -192,7 +221,8 @@ function Blast:CreateToolbar(toolbar_data: {name: string, buttons: { [string]: B
         local button_data = {button = created_button; data = button; toolbar_name = name}
         created_buttons[button.name] = button_data
 
-        self._isButtonActive[Blast._buttonLookup(name, button.name)] = {}
+        self._isButtonActive[Blast._buttonLookup(name, button.name)] = false
+        self._isButtonEnabled[Blast._buttonLookup(name, button.name)] = false
         
         task.spawn(function()
             if button_data.data.togglesWidget then
