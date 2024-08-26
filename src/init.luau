@@ -206,6 +206,7 @@ function Blast:SetButtonActive(toolbar_name: string, button_name: string, active
 end
 
 function Blast:IsButtonActive(toolbar_name: string, button_name: string): boolean
+    task.wait()
     self:AssertForButton(toolbar_name, button_name)
 
     local isButtonActive = Blast._isButtonActive[Blast._buttonLookup(toolbar_name, button_name)]
