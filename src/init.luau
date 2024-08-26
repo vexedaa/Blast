@@ -267,7 +267,7 @@ function Blast:CreateToolbar(toolbar_data: {name: string, buttons: { [string]: B
 
 
 
-    return toolbar_packet, created_buttons
+    return created_toolbar, created_buttons
 end
 
 function Blast:CreateWidget(dock_widget_data: {name: string, widget: DockWidgetPluginGuiInfo})
