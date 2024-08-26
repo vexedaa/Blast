@@ -37,6 +37,8 @@ local Blast = {
 local BlastTypes = Blast.Types
 
 function Blast.Init(_plugin: Plugin?)
+    warn(typeof(_plugin))
+    assert(_plugin ~= nil, "Cannot initialize Blast without `plugin`")
     Blast._setPlugin(_plugin)
     Blast._createToolbars()
     Blast._createWidgets()
