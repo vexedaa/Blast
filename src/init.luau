@@ -29,7 +29,6 @@ local Blast = {
     _widgetsCreated = false;
 
     _isButtonActive = {};
-    _isButtonEnabled = {};
 
     _plugin = nil;
 
@@ -173,10 +172,8 @@ function Blast:SetButtonEnabled(toolbar_name: string, button_name: string, enabl
     self:AssertForButton(toolbar_name, button_name)
     local button = self:GetButton(toolbar_name, button_name)
 
-    local button_lookup = Blast._buttonLookup(toolbar_name, button_name)
-
     if enabled == nil then
-        enabled = not Blast._isButtonEnabled[button_lookup]
+        enabled = not button.Enabled
     end
 
     button.Enabled = not enabled
@@ -197,8 +194,9 @@ function Blast:SetButtonActive(toolbar_name: string, button_name: string, active
         active = not Blast._isButtonActive[button_lookup]
     end
 
-    button.Enabled = not Blast._isButtonEnabled[button_lookup]
-    button.Enabled = Blast._isButtonEnabled[button_lookup]
+    local enabled = button.Enabled
+    button.Enabled = not enabled
+    button.Enabled = enabled
 
     button:SetActive(active)
     Blast._isButtonActive[button_lookup] = active
