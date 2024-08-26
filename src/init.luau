@@ -12,6 +12,8 @@ Disclaimer: Use this software at your own risk. I am not liable for any damage c
 You have permission to use this software for commercial or personal use cases, provided that you credit the original author (me, Vexture), if you are distributing it.
 ]=]
 
+export type ButtonBundle = {button: PluginToolbarButton; data: {}; toolbar_name: string}
+
 local Blast = {
     _Toolbars = require(script.Toolbars);
     _Widgets = require(script.Widgets);
@@ -104,8 +106,8 @@ function Blast:GetPlugin()
     return Blast._plugin
 end
 
-function Blast:GetButton(toolbar_name: string, button_name: string)
-    return self.Buttons[toolbar_name][button_name]
+function Blast:GetButton(toolbar_name: string, button_name: string): PluginToolbarButton
+    return self.Buttons[toolbar_name][button_name].button
 end
 
 function Blast:GetToolbar(toolbar_name: string)
