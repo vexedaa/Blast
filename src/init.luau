@@ -169,7 +169,7 @@ function Blast:AssertForButton(toolbar_name: string, button_name: string)
     return true
 end
 
-function Blast:ToggleButtonEnabled(toolbar_name: string, button_name: string, enabled: boolean?): boolean?
+function Blast:SetButtonEnabled(toolbar_name: string, button_name: string, enabled: boolean?): boolean?
     self:AssertForButton(toolbar_name, button_name)
     local button = self:GetButton(toolbar_name, button_name)
 
