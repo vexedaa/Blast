@@ -120,6 +120,19 @@ function Blast:GetButton(toolbar_name: string, button_name: string): PluginToolb
     return r
 end
 
+function Blast:GetButtonBundle(toolbar_name: string, button_name: string): ButtonBundle
+    self:AssertForButton(toolbar_name, button_name)
+    
+    local s, r = pcall(function()
+        return self.Buttons[toolbar_name][button_name]
+    end)
+    if s == false then
+        error(`Button {button_name} does not exist in toolbar {toolbar_name}.`)
+    end
+
+    return r
+end
+
 function Blast:GetToolbar(toolbar_name: string)
     return self.Toolbars[toolbar_name]
 end
