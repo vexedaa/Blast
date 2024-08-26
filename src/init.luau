@@ -146,7 +146,7 @@ function Blast:GetResource(resource_name: string)
     return find_resource
 end
 
-local function _toggleButtonActive(toolbar_name: string, button_name, string, callback: ((isButtonActive: boolean) -> any)?)
+local function _toggleButtonActive(toolbar_name: string, button_name: string, callback: ((isButtonActive: boolean) -> any)?)
     local button = Blast:GetButton(toolbar_name, button_name)
     local button_bundle = Blast:GetButtonBundle(toolbar_name, button_name)
     local t_n, b_n = toolbar_name, button_name
@@ -250,7 +250,7 @@ function Blast:CreateToolbar(toolbar_data: {name: string, buttons: { [string]: B
                     until widget_data
                 end
     
-                _toggleButtonActive(button_data, function(isButtonActive: boolean)
+                _toggleButtonActive(name, button.name, function(isButtonActive: boolean)
                     widget_data.widget.Enabled = isButtonActive
                 end)
 
@@ -259,6 +259,7 @@ function Blast:CreateToolbar(toolbar_data: {name: string, buttons: { [string]: B
                     Blast:SetButtonActive(name, button.name, initial_enabled)
                 end
             else
+                _toggleButtonActive(name, button.name)
                 Blast:SetButtonActive(name, button.name, false)
             end
         end)
