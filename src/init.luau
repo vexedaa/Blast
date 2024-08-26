@@ -138,9 +138,20 @@ local function _toggleButtonActive(button_data: any, callback: ((isButtonActive:
     end)
 end
 
-function Blast:SetButtonActive(button_data: {}, active: boolean)
-    button_data.button:SetActive(active)
-    Blast._isButtonActive[button_data.toolbar_name .. button_data.data.name] = active
+function Blast:SetButtonActive(toolbar_name: string, button_name: string, active: boolean?): boolean?
+    assert(typeof(toolbar_name) == "string", "Must specify a toolbar")
+    assert(typeof(button_name) == "string", "Must specify a button name")
+    assert(active == nil or typeof(active) == "boolean", "Invalid toggle value")
+    local button = self:GetButton(toolbar_name, button_name)
+    assert(button and button.ClassName == "PluginToolbarButton", "Button not found")
+    if active == nil then
+        active = not Blast._isButtonActive[toolbar_name][button_name]
+    end
+
+    button:SetActive(active)
+    Blast._isButtonActive[toolbar_name][button_name] = active
+
+    return true
 end
 
 function Blast:IsButtonActive(button_data: {}): boolean
