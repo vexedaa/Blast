@@ -236,6 +236,10 @@ function Blast:CreateToolbar(toolbar_data: {name: string, buttons: { [string]: B
         self._isButtonActive[Blast._buttonLookup(name, button.name)] = false -- Inactive by default
         created_button.Enabled = true
         
+        local toolbar_packet = {toolbar = created_toolbar; data = toolbar_data}
+        self.Toolbars[name] = toolbar_packet
+        self.Buttons[name] = created_buttons
+        
         task.spawn(function()
             if button_data.data.togglesWidget then
                 local widget_data = Blast:GetWidget(button_data.data.togglesWidget)
@@ -260,9 +264,6 @@ function Blast:CreateToolbar(toolbar_data: {name: string, buttons: { [string]: B
         end)
     end
 
-    local toolbar_packet = {toolbar = created_toolbar; data = toolbar_data}
-    self.Toolbars[name] = toolbar_packet
-    self.Buttons[name] = created_buttons
 
 
     return toolbar_packet, created_buttons
