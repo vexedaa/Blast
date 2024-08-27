@@ -21,6 +21,7 @@ local Blast = {
     Toolbars = {};
     Buttons = {};
     Widgets = {};
+    Connections = {};
     
     Resources = {};
     Types = require(script.BlastTypes);
@@ -31,6 +32,9 @@ local Blast = {
     _isButtonActive = {};
 
     _plugin = nil;
+
+    _bindToClose = nil;
+    _bindToCloseHandlers = {};
 
     ChangeHistoryService = game:GetService("ChangeHistoryService");
     Selection = game:GetService("Selection")
@@ -43,6 +47,7 @@ function Blast.Init(_plugin: Plugin?)
     Blast._setPlugin(_plugin)
     Blast._createToolbars()
     Blast._createWidgets()
+    Blast._setupBindToClose()
 end
 
 function Blast.SetPlugin(_plugin: Plugin)
@@ -86,6 +91,22 @@ function Blast._setResources(resources: Folder, replaces: boolean?): {}
     end
 
     return Blast.Resources
+end
+
+function Blast._setupBindToClose()
+    local plugin = Blast._plugin
+    assert(plugin ~= nil and plugin.ClassName == "Plugin", `Invalid 'plugin' supplied: {plugin}`)
+    Blast._bindToClose = function()
+        for _, handler in Blast._bindToCloseHandlers do
+            handler()
+        end
+    end
+
+    Blast:BindToClose(function()
+        for _, connection in Blast.Connections do
+            connection:Disconnect()
+        end
+    end)
 end
 
 function Blast:awaitToolbars()
@@ -286,6 +307,14 @@ function Blast:CreateWidget(dock_widget_data: {name: string, widget: DockWidgetP
     local packet = {widget = widget; data = dock_widget_data}
     self.Widgets[dock_widget_data.name] = packet
     return packet
+end
+
+function Blast:BindToClose(callback: () -> any)
+    local plugin = self._plugin
+    assert(plugin ~= nil and plugin.ClassName == "Plugin", `Invalid 'plugin' supplied: {plugin}`)
+    assert(callback and typeof(callback) == "function", `A callback must be provided to BindToClose.`)
+
+    table.insert(self._bindToCloseHandlers, callback)
 end
 
 return Blast
