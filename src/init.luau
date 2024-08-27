@@ -107,6 +107,8 @@ function Blast._setupBindToClose()
             connection:Disconnect()
         end
     end)
+
+    game:BindToClose(Blast._bindToClose)
 end
 
 function Blast:awaitToolbars()
