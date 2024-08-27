@@ -108,7 +108,7 @@ function Blast._setupBindToClose()
         end
     end)
 
-    game:BindToClose(Blast._bindToClose)
+    plugin.Unloading:Connect(Blast._bindToClose)
 end
 
 function Blast:awaitToolbars()
