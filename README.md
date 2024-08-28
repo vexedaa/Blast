@@ -50,3 +50,5 @@ and configure a `gitman.yml` file like this:
 ```
 
 Then, run `gitman install`. If you want to update Blast, run `gitman update`. If you have any local changes, add `--force` to the end of your command.
+Please note that as of Public Version 1.0, it is not recommended to use this package in your project unless you are comfortable making your own modifications and improvements.
+The API and functionality of this package will evolve over time.
