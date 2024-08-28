@@ -219,10 +219,8 @@ function Blast:SetButtonActive(toolbar_name: string, button_name: string, active
         active = not Blast._isButtonActive[button_lookup]
     end
 
-    button:SetActive(not active)
     local enabled = button.Enabled
     button.Enabled = not enabled
-    task.wait()
     button.Enabled = enabled
     button:SetActive(active)
     Blast._isButtonActive[button_lookup] = active
