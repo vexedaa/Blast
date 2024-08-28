@@ -214,15 +214,15 @@ function Blast:SetButtonActive(toolbar_name: string, button_name: string, active
     local button = self:GetButton(toolbar_name, button_name)
     assert(button and button.ClassName == "PluginToolbarButton", "Button not found")
     local button_lookup = Blast._buttonLookup(toolbar_name, button_name)
+    local enabled = button.Enabled
+    button.Enabled = false
     
     if active == nil then
         active = not Blast._isButtonActive[button_lookup]
     end
 
-    local enabled = button.Enabled
-    button.Enabled = not enabled
-    button.Enabled = enabled
     button:SetActive(active)
+    button.Enabled = enabled
     Blast._isButtonActive[button_lookup] = active
 
     return true
