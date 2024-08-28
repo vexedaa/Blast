@@ -196,6 +196,8 @@ end
 function Blast:SetButtonEnabled(toolbar_name: string, button_name: string, enabled: boolean?): boolean?
     task.wait()
     task.wait()
+    task.wait()
+    task.wait()
     self:AssertForButton(toolbar_name, button_name)
     local button = self:GetButton(toolbar_name, button_name)
 
@@ -210,6 +212,8 @@ function Blast:SetButtonEnabled(toolbar_name: string, button_name: string, enabl
 end
 
 function Blast:SetButtonActive(toolbar_name: string, button_name: string, active: boolean?): boolean?
+    task.wait()
+    task.wait()
     task.wait()
     task.wait()
     self:AssertForButton(toolbar_name, button_name)
@@ -235,6 +239,8 @@ end
 function Blast:SuspendButton(toolbar_name: string, button_name: string)
     task.wait()
     task.wait()
+    task.wait()
+    task.wait()
     self:SetButtonEnabled(toolbar_name, button_name, false)
     self:SetButtonActive(toolbar_name, button_name, false)
 end
@@ -242,11 +248,15 @@ end
 function Blast:ReviveButton(toolbar_name: string, button_name: string)
     task.wait()
     task.wait()
+    task.wait()
+    task.wait()
     self:SetButtonEnabled(toolbar_name, button_name, true)
     self:SetButtonActive(toolbar_name, button_name, false)
 end
 
 function Blast:IsButtonActive(toolbar_name: string, button_name: string): boolean
+    task.wait()
+    task.wait()
     task.wait()
     task.wait()
     self:AssertForButton(toolbar_name, button_name)
