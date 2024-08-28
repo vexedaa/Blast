@@ -7,7 +7,8 @@
  `---'`---'`   '`---'  `        `o`--'
 
 A simple, easy-to-integrate plugin lifecycle springboard for Roblox plugins.
-Made by Vexture in August 2024.
+
+Copyright (c) 2024 Vexture
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
