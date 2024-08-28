@@ -5,15 +5,13 @@
  |---.|    |---|`---.  |        | |  |
  |   ||    |   |    |  |        | |  |
  `---'`---'`   '`---'  `        `o`--'
- </pre>
 
-A simple, easy-to-integrate plugin lifecycle springboard.
+A simple, easy-to-integrate plugin lifecycle springboard for Roblox plugins.
 Made by Vexture in August 2024.
 
 Disclaimer: Use this software at your own risk. I am not liable for any damage caused by using this software, financial or otherwise.
 You have permission to use this software for commercial or personal use cases, provided that you credit me if you distribute it.
-
-Blast is a simple springboard for Roblox plugins.
+ </pre>
 
 ## Features
 
