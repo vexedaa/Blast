@@ -1,9 +1,11 @@
 # Blast
 
+<pre>
  ,---.|    ,---.,---.--.--     '| ,--.
  |---.|    |---|`---.  |        | |  |
  |   ||    |   |    |  |        | |  |
  `---'`---'`   '`---'  `        `o`--'
+ </pre>
 
 A simple, easy-to-integrate plugin lifecycle springboard.
 Made by Vexture in August 2024.
