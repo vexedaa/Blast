@@ -9,7 +9,7 @@ A simple, easy-to-integrate plugin lifecycle springboard.
 Made by Vexture in August 2024.
 
 Disclaimer: Use this software at your own risk. I am not liable for any damage caused by using this software, financial or otherwise.
-You have permission to use this software for commercial or personal use cases, provided that you credit the original author (me, Vexture), if you are distributing it.
+You have permission to use this software for commercial or personal use cases, provided that you credit me if you distribute it.
 ]=]
 
 export type ButtonBundle = {button: PluginToolbarButton; data: {}; toolbar_name: string}
