@@ -11,6 +11,7 @@ local Widgets = {
     --             0, -- Min Width
     --             0 -- Min Height
     --         );
+    --      gui = GuiObject;
     -- };
 }
 

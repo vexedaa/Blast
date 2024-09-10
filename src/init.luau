@@ -303,8 +303,9 @@ function Blast:CreateToolbar(toolbar_data: {name: string, buttons: { [string]: B
     return created_toolbar, created_buttons
 end
 
-function Blast:CreateWidget(dock_widget_data: {name: string, widget: DockWidgetPluginGuiInfo})
+function Blast:CreateWidget(dock_widget_data: {name: string, widget: DockWidgetPluginGuiInfo, gui: GuiObject})
     local widget =  self:GetPlugin():CreateDockWidgetPluginGui(dock_widget_data.name, dock_widget_data.widget)
+    dock_widget_data.gui.Parent = widget
     local packet = {widget = widget; data = dock_widget_data}
     self.Widgets[dock_widget_data.name] = packet
     return packet
