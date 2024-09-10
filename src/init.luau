@@ -169,19 +169,22 @@ function Blast:GetResource(resource_name: string)
     return find_resource
 end
 
-local function _toggleButtonActive(toolbar_name: string, button_name: string, callback: ((isButtonActive: boolean) -> any)?)
+local function _toggleButtonActive(toolbar_name, button_name, callback)
+    local isButtonActive = Blast:IsButtonActive(toolbar_name, button_name)
+    isButtonActive = not isButtonActive
+
+    Blast:SetButtonActive(toolbar_name, button_name, isButtonActive)
+
+    if callback then
+        callback(isButtonActive)
+    end
+end
+
+local function _hookButtonToggleEvent(toolbar_name: string, button_name: string, callback: ((isButtonActive: boolean) -> any)?)
     local button = Blast:GetButton(toolbar_name, button_name)
     local button_bundle = Blast:GetButtonBundle(toolbar_name, button_name)
-    local t_n, b_n = toolbar_name, button_name
     button_bundle.toggleEvent = button.Click:Connect(function()
-        local isButtonActive = Blast:IsButtonActive(t_n, b_n)
-        isButtonActive = not isButtonActive
-
-        Blast:SetButtonActive(t_n, b_n, isButtonActive)
-
-        if callback then
-            callback(isButtonActive)
-        end
+        _toggleButtonActive(toolbar_name, button_name, callback)
     end)
 end
 
@@ -283,7 +286,7 @@ function Blast:CreateToolbar(toolbar_data: {name: string, buttons: { [string]: B
                     until widget_data
                 end
     
-                _toggleButtonActive(name, button.name, function(isButtonActive: boolean)
+                _hookButtonToggleEvent(name, button.name, function(isButtonActive: boolean)
                     widget_data.widget.Enabled = isButtonActive
                 end)
 
@@ -291,8 +294,14 @@ function Blast:CreateToolbar(toolbar_data: {name: string, buttons: { [string]: B
                 if initial_enabled then
                     Blast:SetButtonActive(name, button.name, initial_enabled)
                 end
+
+                widget_data.widget:BindToClose(function()
+                    widget_data.widget.Enabled = false
+                    _toggleButtonActive(name, button.name)
+                end)
+                
             else
-                _toggleButtonActive(name, button.name)
+                _hookButtonToggleEvent(name, button.name)
                 Blast:SetButtonActive(name, button.name, false)
             end
         end)
