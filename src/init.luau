@@ -56,12 +56,26 @@ function Blast.Init(_plugin: Plugin?)
     Blast._setupBindToClose()
 end
 
-function Blast.WhitelistPlace(id: number): boolean
-    assert(id and typeof(id) == "number", `ID {id} is nil or not a number. Please provide a number.`)
+local function _addIdToWhitelist(id: number): boolean
+    assert(id and (typeof(id) == "number"), `ID {id} is nil or an invalid type. Please provide a number argument.`)
     Blast._usePlaceWhitelist = true
+
     if table.find(Blast._idWhitelist, id) then return false end
 
     table.insert(Blast._idWhitelist, id)
+    return true
+end
+
+function Blast.WhitelistPlace(id: number | {}): boolean
+    assert(id and (typeof(id) == "number" or typeof(id) == "table"), `ID {id} is nil or an invalid type. Please provide a valid argument.`)
+    if typeof(id) == "number" then
+        return _addIdToWhitelist(id)
+    elseif typeof(id) == "table" then
+        for _, value in id do
+            local result = _addIdToWhitelist(value)
+            if not result then return false end
+        end
+    end
     return true
 end
 
