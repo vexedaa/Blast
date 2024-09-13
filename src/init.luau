@@ -36,6 +36,9 @@ local Blast = {
     _bindToClose = nil;
     _bindToCloseHandlers = {};
 
+    _usePlaceWhitelist = false;
+    _idWhitelist = {};
+
     ChangeHistoryService = game:GetService("ChangeHistoryService");
     Selection = game:GetService("Selection")
 }
@@ -44,10 +47,22 @@ local BlastTypes = Blast.Types
 
 function Blast.Init(_plugin: Plugin?)
     assert(_plugin ~= nil and _plugin.ClassName == "Plugin", "Cannot initialize Blast without `plugin`")
+
+    if Blast._usePlaceWhitelist and not table.find(Blast._idWhitelist, game.PlaceId) then return end
+
     Blast._setPlugin(_plugin)
     Blast._createToolbars()
     Blast._createWidgets()
     Blast._setupBindToClose()
+end
+
+function Blast.WhitelistPlace(id: number): boolean
+    assert(id and typeof(id) == "number", `ID {id} is nil or not a number. Please provide a number.`)
+    Blast._usePlaceWhitelist = true
+    if table.find(Blast._idWhitelist, id) then return false end
+
+    table.insert(Blast._idWhitelist, id)
+    return true
 end
 
 function Blast.SetPlugin(_plugin: Plugin)
