@@ -144,6 +144,10 @@ function Blast:GetPlugin()
     return Blast._plugin
 end
 
+function Blast:CanPluginRun()
+    return table.find(Blast._idWhitelist, game.PlaceId) ~= nil or Blast._usePlaceWhitelist == false
+end
+
 function Blast:GetButton(toolbar_name: string, button_name: string): PluginToolbarButton
     self:AssertForButton(toolbar_name, button_name)
     
