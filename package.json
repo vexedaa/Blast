@@ -1,0 +1,19 @@
+{
+  "name": "blast",
+  "version": "1.0.0",
+  "description": "<pre>\r  ,---.|    ,---.,---.--.--     '| ,--.\r  |---.|    |---|`---.  |        | |  |\r  |   ||    |   |    |  |        | |  |\r  `---'`---'`   '`---'  `        `o`--'",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vexedaa/Blast.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vexedaa/Blast/issues"
+  },
+  "homepage": "https://github.com/vexedaa/Blast#readme"
+}
