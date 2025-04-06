@@ -73,7 +73,7 @@ function Blast.WhitelistPlace(id: number | {}): boolean
     elseif typeof(id) == "table" then
         for _, value in id do
             local result = _addIdToWhitelist(value)
-            if not result then return false end
+            if not result then continue end
         end
     end
     return true
